@@ -25,7 +25,7 @@ with app:
 @logged
 @app.on_message(filters.command(["start", f"start@{botname}"], prefixes="/") & ~filters.edited)
 def start(client, message):
-    text = f"Hello {str(message.from_user.first_name)}, I am a YouTube downloader bot made by @Kirodewal." + \
+    text = f"Hello {str(message.from_user.first_name)}, I am a YouTube downloader bot made by @charindith." + \
         "Please see /help if you want to know how to use me."
     app.send_message(chat_id=message.chat.id, text=text)
 
@@ -36,7 +36,7 @@ def start(client, message):
 def help(client, message):
     text = 'Download YT videos and audios by:\n' + \
         '/video link\n' + \
-        '/audio link'
+        '/song link'
     app.send_message(chat_id=message.chat.id, text=text)
 
 
@@ -73,7 +73,7 @@ def video_dl(client, message):
 
 @traced
 @logged
-@app.on_message(filters.command(["audio", f"audio@{botname}"], prefixes="/") & ~filters.edited)
+@app.on_message(filters.command(["song", f"song@{botname}"], prefixes="/") & ~filters.edited)
 def audio_dl(client, message):
     chat_id = message.chat.id
     link = message.text.split('audio', maxsplit=1)[1]
