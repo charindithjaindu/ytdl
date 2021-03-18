@@ -19,7 +19,11 @@ bot_token = os.environ["BOT_TOKEN"]
 app = Client("my_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 with app:
     botname = app.get_me().username
-
+YTDL_REGEX = (r"^((?:https?:)?\/\/)"
+              r"?((?:www|m)\.)"
+              r"?((?:youtube\.com|youtu\.be|xvideos\.com|pornhub\.com"
+              r"|xhamster\.com|xnxx\.com))"
+              r"(\/)([-a-zA-Z0-9()@:%_\+.~#?&//=]*)([\w\-]+)(\S+)?$")
 
 @traced
 @logged
@@ -42,10 +46,10 @@ def help(client, message):
 
 @traced
 @logged
-@app.on_message(filters.command(["video", f"video@{botname}"], prefixes="/") & ~filters.edited)
+@app.on_message(filters.regex(YTDL_REGEX)& ~filters.edited)
 def video_dl(client, message):
     chat_id = message.chat.id
-    link = message.text.split(maxsplit=1)[1]
+    link = message.text
     try:
         yt = YouTube(link)
         video = yt.streams.get_highest_resolution().download('res')
